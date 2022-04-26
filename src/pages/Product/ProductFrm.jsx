@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_FOLDER, API_ENDPOINT, FOLDER_IMAGE, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, TIME_OUT, URL_SERVER } from "configs";
+import { ADMIN_FOLDER, API_ENDPOINT, FOLDER_IMAGE, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT, URL_SERVER } from "configs";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -33,10 +33,10 @@ function ProductFrm() {
     dispatch(loadingSlice.actions.show());
     if (parseInt(productId).toString() !== "NaN") {
       method = "PATCH";
-      url = `${API_ENDPOINT}/product/${parseInt(productId)}`;
+      url = `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`;
     } else {
       method = "POST";
-      url = `${API_ENDPOINT}/product`;
+      url = `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}`;
     }
     axios({
       method,
@@ -50,7 +50,7 @@ function ProductFrm() {
           if (res.data.checked === true) {
             msg.push(NOTI_SAVE_SUCCESSFULLY);
             typeNotify = NOTI_TYPE_SUCCESS;
-            navigate(`/${ADMIN_FOLDER}/product/${parseInt(res.data.item.id)}`);
+            navigate(`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(res.data.item.id)}`);
           } else {
             res.data.msg.forEach((element) => {
               msg.push(element);
@@ -91,7 +91,7 @@ function ProductFrm() {
     dispatch(loadingSlice.actions.show());
     axios({
       method: "GET",
-      url: `${API_ENDPOINT}/category-product`,
+      url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}`,
       timeout: TIME_OUT,
     })
       .then((res) => {
@@ -104,7 +104,7 @@ function ProductFrm() {
     if (parseInt(productId).toString() !== "NaN") {
       axios({
         method: "GET",
-        url: `${API_ENDPOINT}/product/${parseInt(productId)}`,
+        url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`,
         timeout: TIME_OUT,
       })
         .then((res) => {
@@ -163,7 +163,7 @@ function ProductFrm() {
           <span>Product</span>
         </div>
         <div className="flex justify-end gap-x-2">
-          <Link to={`/${ADMIN_FOLDER}/product/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
+          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
             <span className="text-white">Add new</span>
             <i className="fa fa-plus text-white" aria-hidden="true"></i>
           </Link>
@@ -171,7 +171,7 @@ function ProductFrm() {
             <span className="text-white">Submit</span>
             <i className="fa fa-floppy-o text-white" aria-hidden="true"></i>
           </button>
-          <Link to={`/${ADMIN_FOLDER}/product/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
+          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
             <span className="text-white">Back</span>
             <i className="fa fa-backward text-white" aria-hidden="true"></i>
           </Link>

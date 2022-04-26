@@ -1,4 +1,4 @@
-import { ADMIN_FOLDER } from "configs";
+import { ADMIN_FOLDER, PATH_NAME } from "configs";
 import React from "react";
 import { Link, Outlet, useMatch, useResolvedPath } from "react-router-dom";
 import "assets/admin/admin-main.scss";
@@ -22,16 +22,13 @@ function AdminMaster() {
         <div className="text-white text-4xl font-semibold py-3 text-center tracking-widest">Side menu</div>
         <ul className="w-full list-none">
           <li>
-            <CustomLink to={`/${ADMIN_FOLDER}/category-product/list`}>Category product</CustomLink>
+            <CustomLink to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/list`}>Category product</CustomLink>
           </li>
           <li>
-            <CustomLink to={`/${ADMIN_FOLDER}/product/list`}>Product</CustomLink>
+            <CustomLink to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/list`}>Product</CustomLink>
           </li>
           <li>
             <CustomLink to={`/${ADMIN_FOLDER}/user/list`}>User List</CustomLink>
-          </li>
-          <li>
-            <CustomLink to={`/${ADMIN_FOLDER}/user/add`}>User Add</CustomLink>
           </li>
           <li>
             <a href="#" className="text-white no-underline font-semibold block w-full border-l-2 border-solid border-transparent relative">

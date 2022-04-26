@@ -1,6 +1,6 @@
 import LoadingSnipper from "components/LoadingSnipper";
 import Notify from "components/Notify";
-import { PATH_NAME } from "configs";
+import { ADMIN_FOLDER, PATH_NAME } from "configs";
 import AuthGuard from "guards/AuthGuard";
 import GuestGuard from "guards/GuestGuard";
 import AdminMaster from "layouts/AdminMaster";
@@ -21,24 +21,24 @@ function RoutesMain() {
       <Suspense fallback={<div></div>}>
         <Routes>
           <Route
-            path="admin-login"
+            path={PATH_NAME.ADMIN_LOGIN}
             element={
               <GuestGuard>
                 <Login />
               </GuestGuard>
             }
           />
-          <Route path="admin-master" element={<AdminMaster />}>
+          <Route path={PATH_NAME.ADMIN_MASTER} element={<AdminMaster />}>
             <Route path="*" element={<NoMatchFrm />} />
             <Route
-              path="dashboard"
+              path={PATH_NAME.ADMIN_DASHBOARD}
               element={
                 <AuthGuard>
                   <Dashboard />
                 </AuthGuard>
               }
             />
-            <Route path="category-product">
+            <Route path={PATH_NAME.ADMIN_CATEGORY_PRODUCT}>
               <Route
                 index
                 element={
@@ -73,7 +73,7 @@ function RoutesMain() {
               />
               <Route path="*" element={<NoMatchFrm />} />
             </Route>
-            <Route path="product">
+            <Route path={PATH_NAME.ADMIN_PRODUCT}>
               <Route
                 index
                 element={
@@ -108,7 +108,7 @@ function RoutesMain() {
               />
               <Route path="*" element={<NoMatchFrm />} />
             </Route>
-            <Route path="user">
+            <Route path={PATH_NAME.ADMIN_USER}>
               <Route
                 index
                 element={
@@ -135,7 +135,7 @@ function RoutesMain() {
               />
             </Route>
           </Route>
-          <Route path="" element={<Navigate to={PATH_NAME.ADMIN_DASHBOARD} />} />
+          <Route path="" element={<Navigate to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_DASHBOARD}`} />} />
           <Route path="*" element={<NoMatchFrm />} />
         </Routes>
         <Notify />

@@ -6,7 +6,7 @@ import { checkedLogin } from "redux/selector";
 
 function AuthGuard({ children }) {
   const isAuth = useSelector(checkedLogin);
-  if (!isAuth) return <Navigate to={PATH_NAME.ADMIN_LOGIN} />;
+  if (!isAuth) return <Navigate to={`/${PATH_NAME.ADMIN_LOGIN}`} />;
   return <Fragment>{children}</Fragment>;
 }
 
