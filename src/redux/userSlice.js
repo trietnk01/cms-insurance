@@ -4,7 +4,7 @@ import { USER_LOGIN } from "configs";
 export default createSlice({
   name: "user-slice",
   initialState: {
-    isLogin: false,
+    isLogin: true,
     userInfo: {},
   },
   reducers: {

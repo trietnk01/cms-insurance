@@ -13,6 +13,8 @@ const CategoryProductList = lazy(() => import("pages/CategoryProduct/CategoryPro
 const CategoryProductFrm = lazy(() => import("pages/CategoryProduct/CategoryProductFrm"));
 const ProductList = lazy(() => import("pages/Product/ProductList"));
 const ProductFrm = lazy(() => import("pages/Product/ProductFrm"));
+const UserList = lazy(() => import("pages/User/UserList"));
+const UserFrm = lazy(() => import("pages/User/UserFrm"));
 function RoutesMain() {
   return (
     <BrowserRouter>
@@ -105,6 +107,32 @@ function RoutesMain() {
                 }
               />
               <Route path="*" element={<NoMatchFrm />} />
+            </Route>
+            <Route path="user">
+              <Route
+                index
+                element={
+                  <AuthGuard>
+                    <UserList />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="list"
+                element={
+                  <AuthGuard>
+                    <UserList />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="add"
+                element={
+                  <AuthGuard>
+                    <UserFrm />
+                  </AuthGuard>
+                }
+              />
             </Route>
           </Route>
           <Route path="" element={<Navigate to={PATH_NAME.ADMIN_DASHBOARD} />} />
