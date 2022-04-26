@@ -1,0 +1,134 @@
+.main {
+  background-color: rgb(248, 248, 252);
+  font-family: $f_Roboto;
+  font-size: 13px;
+  font-weight: 500;
+  color: $black;
+
+  .container_pc_world {
+    max-width: 1304px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12px;
+    padding-right: 12px;
+    header {
+      display: flex;
+      height: 90px;
+      align-items: center;
+      .box_logo {
+        width: 250px;
+        img {
+          width: 100%;
+        }
+      }
+      .frm_header_search {
+        display: flex;
+        align-items: center;
+        width: 405px;
+        margin-left: 20px;
+        border: 1px solid #e0e0e0;
+        height: 40px;
+        border-radius: 4px;
+        padding: 0px 2px;
+        column-gap: 5px;
+        background-color: #fff;
+        .product_name {
+          padding: 8px 10px;
+          outline: 0;
+          border: 0;
+          flex-grow: 1;
+        }
+        .btn_search {
+          width: 35px;
+          height: 35px;
+          border-radius: 4px;
+          background-color: $blue;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: 0;
+          right: 0;
+          color: #fff;
+          outline: 0;
+          border: 0;
+        }
+      }
+      .box_icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 90px;
+        height: 60px;
+        margin-left: 20px;
+        color: rgb(130, 134, 158);
+        text-decoration: none;
+        transition-duration: 500ms;
+        .fa {
+          font-size: 30px;
+        }
+        &:hover {
+          color: $blue;
+        }
+      }
+    }
+    .product_wrapper {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      .product_box {
+        width: 238px;
+        background-color: #fff;
+        margin-right: 2px;
+        margin-bottom: 2px;
+        padding: 10px;
+        .product_img {
+          display: block;
+          div {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 160px;
+          }
+        }
+        .product_name {
+          margin-top: 10px;
+          a {
+            font-size: 12px;
+            outline: 0;
+            background: transparent;
+            color: $blue;
+            text-decoration: none;
+          }
+        }
+        .product_line {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+          .product_price {
+            color: $blue;
+            font-weight: 700;
+          }
+          .product_truck {
+            color: $blue;
+          }
+        }
+        .btn_order_now {
+          display: flex;
+          justify-content: center;
+          margin-top: 10px;
+          button {
+            background: #fff;
+            outline: 0;
+            width: 150px;
+            border: 1px solid $blue;
+            cursor: pointer;
+            padding: 6px 0;
+            font-weight: 600;
+            color: $blue;
+          }
+        }
+      }
+    }
+  }
+}
