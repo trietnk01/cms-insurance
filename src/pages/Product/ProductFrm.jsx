@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_FOLDER, API_ENDPOINT, FOLDER_IMAGE, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT, URL_SERVER } from "configs";
+import { API_ENDPOINT, FOLDER_IMAGE, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT, URL_SERVER } from "configs";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -25,14 +25,18 @@ function ProductFrm() {
     let url = "";
     let method = "";
     let frmData = new FormData();
+
     frmData.append("fullname", data.fullname);
     frmData.append("category_product_id", data.category_product_id);
     if (featuredImage) {
       frmData.append("product_image", featuredImage);
     }
+    console.log("data = ", data);
+    console.log("frmData = ", frmData);
     dispatch(loadingSlice.actions.show());
+
     if (parseInt(productId).toString() !== "NaN") {
-      method = "PATCH";
+      method = "PUT";
       url = `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`;
     } else {
       method = "POST";
@@ -41,16 +45,15 @@ function ProductFrm() {
     axios({
       method,
       url,
-      data: frmData,
+      data,
       timeout: TIME_OUT,
-      headers: { "Content-Type": "multipart/form-data" },
     })
       .then((res) => {
         if (res && parseInt(res.status) === 200) {
           if (res.data.checked === true) {
             msg.push(NOTI_SAVE_SUCCESSFULLY);
             typeNotify = NOTI_TYPE_SUCCESS;
-            navigate(`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(res.data.item.id)}`);
+            navigate(`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(res.data.item.id)}`);
           } else {
             res.data.msg.forEach((element) => {
               msg.push(element);
@@ -163,7 +166,7 @@ function ProductFrm() {
           <span>Product</span>
         </div>
         <div className="flex justify-end gap-x-2">
-          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
+          <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
             <span className="text-white">Add new</span>
             <i className="fa fa-plus text-white" aria-hidden="true"></i>
           </Link>
@@ -171,7 +174,7 @@ function ProductFrm() {
             <span className="text-white">Submit</span>
             <i className="fa fa-floppy-o text-white" aria-hidden="true"></i>
           </button>
-          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_PRODUCT}/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
+          <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_PRODUCT}/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
             <span className="text-white">Back</span>
             <i className="fa fa-backward text-white" aria-hidden="true"></i>
           </Link>

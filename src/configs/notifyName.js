@@ -1,7 +1,6 @@
 export const NOTI_TYPE_SUCCESS = "success";
 export const NOTI_TYPE_WARNING = "warning";
 export const NOTI_TYPE_DANGER = "danger";
-
 export const NOTI_SAVE_SUCCESSFULLY = "Save successfully";
 export const NOTI_SAVE_FAIL = "Save failed";
 export const NOTI_DELETE_SUCCESSFULLY = "Delete successfully";

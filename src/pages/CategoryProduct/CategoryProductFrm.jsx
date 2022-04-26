@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_FOLDER, API_ENDPOINT, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -40,7 +40,7 @@ function CategoryProductFrm() {
           if (res.data.checked === true) {
             msg.push(NOTI_SAVE_SUCCESSFULLY);
             typeNotify = NOTI_TYPE_SUCCESS;
-            navigate(`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/${parseInt(res.data.item.id)}`);
+            navigate(`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/${parseInt(res.data.item.id)}`);
           } else {
             res.data.msg.forEach((element) => {
               msg.push(element);
@@ -112,7 +112,7 @@ function CategoryProductFrm() {
           <span>Category Product</span>
         </div>
         <div className="flex justify-end gap-x-2">
-          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
+          <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
             <span className="text-white">Add new</span>
             <i className="fa fa-plus text-white" aria-hidden="true"></i>
           </Link>
@@ -120,7 +120,7 @@ function CategoryProductFrm() {
             <span className="text-white">Submit</span>
             <i className="fa fa-floppy-o text-white" aria-hidden="true"></i>
           </button>
-          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
+          <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/list`} className="no-underline flex justify-center items-center gap-x-2 bg-red-500 text-white border-0 p-2 hover:bg-red-600">
             <span className="text-white">Back</span>
             <i className="fa fa-backward text-white" aria-hidden="true"></i>
           </Link>

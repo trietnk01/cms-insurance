@@ -1,6 +1,6 @@
 import LoadingSnipper from "components/LoadingSnipper";
 import Notify from "components/Notify";
-import { ADMIN_FOLDER, PATH_NAME } from "configs";
+import { PATH_NAME } from "configs";
 import AuthGuard from "guards/AuthGuard";
 import GuestGuard from "guards/GuestGuard";
 import AdminMaster from "layouts/AdminMaster";
@@ -135,7 +135,7 @@ function RoutesMain() {
               />
             </Route>
           </Route>
-          <Route path="" element={<Navigate to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_DASHBOARD}`} />} />
+          <Route path="" element={<Navigate to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_DASHBOARD}`} />} />
           <Route path="*" element={<NoMatchFrm />} />
         </Routes>
         <Notify />

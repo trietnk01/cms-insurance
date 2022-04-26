@@ -1,4 +1,4 @@
-import { ADMIN_FOLDER, PATH_NAME } from "configs";
+import { PATH_NAME } from "configs";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import { checkedLogin } from "redux/selector";
 
 function GuestGuard({ children }) {
   const isAuth = useSelector(checkedLogin);
-  if (isAuth) return <Navigate to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_DASHBOARD}`} />;
+  if (isAuth) return <Navigate to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_DASHBOARD}`} />;
   return <Fragment>{children}</Fragment>;
 }
 

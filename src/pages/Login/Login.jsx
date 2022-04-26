@@ -1,6 +1,6 @@
 import "assets/admin/admin-main.scss";
 import axios from "axios";
-import { ADMIN_FOLDER, API_ENDPOINT, NOTI_LOGIN_FAIL, NOTI_PERMISSION_DENINED, NOTI_TYPE_DANGER, NOTI_TYPE_WARNING, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTI_LOGIN_FAIL, NOTI_PERMISSION_DENINED, NOTI_TYPE_DANGER, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,7 @@ function Login() {
         if (res && parseInt(res.status) === 200 && parseInt(res.data.checked) === 1) {
           if (parseInt(res.data.user.status) === 1) {
             dispatch(userSlice.actions.login(res.data.user));
-            navigate(`/${ADMIN_FOLDER}/dashboard`);
+            navigate(`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_DASHBOARD}`);
           } else {
             msg.push(NOTI_PERMISSION_DENINED);
             typeNotify = NOTI_TYPE_WARNING;

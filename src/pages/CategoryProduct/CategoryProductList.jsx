@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_FOLDER, API_ENDPOINT, NOTI_CONFIRMED_DELETE, NOTI_DELETE_FAIL, NOTI_DELETE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTI_CONFIRMED_DELETE, NOTI_DELETE_FAIL, NOTI_DELETE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -182,7 +182,7 @@ function CategoryProductList() {
             </td>
             <td className="border-b border-r p-2">{item.fullname}</td>
             <td className="border-b border-r p-2 text-center">
-              <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/${item.id}`} className="border-0 bg-transparent">
+              <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/${item.id}`} className="border-0 bg-transparent">
                 <i className="fa fa-pencil" aria-hidden="true"></i>
               </Link>
             </td>
@@ -205,7 +205,7 @@ function CategoryProductList() {
           <span>Category product</span>
         </div>
         <div className="flex justify-end gap-x-2">
-          <Link to={`/${ADMIN_FOLDER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
+          <Link to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/add`} className="no-underline flex justify-center items-center gap-x-2 bg-blue-500 text-white border-0 p-2 hover:bg-blue-600">
             <span className="text-white">Add new</span>
             <i className="fa fa-plus text-white" aria-hidden="true"></i>
           </Link>
