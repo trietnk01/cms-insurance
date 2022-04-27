@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ENDPOINT, NOTI_CONFIRMED_DELETE, NOTI_DELETE_FAIL, NOTI_DELETE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTIFY_NAME, PATH_NAME, TIME_OUT } from "configs";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ function ProductList() {
           });
           dispatch(
             notifySlice.actions.showNotify({
-              type: NOTI_TYPE_DANGER,
+              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
               msg,
             })
           );
@@ -37,7 +37,7 @@ function ProductList() {
         dispatch(loadingSlice.actions.hide());
         dispatch(
           notifySlice.actions.showNotify({
-            type: NOTI_TYPE_DANGER,
+            type: NOTIFY_NAME.NOTI_TYPE_DANGER,
             msg: err.message,
           })
         );
@@ -45,7 +45,7 @@ function ProductList() {
   }, []);
   function handleDelete(id) {
     let confirmed = false;
-    let alertTxt = NOTI_CONFIRMED_DELETE;
+    let alertTxt = NOTIFY_NAME.NOTI_CONFIRMED_DELETE;
     let msg = new Array();
     let typeNotify = "";
     if (window.confirm(alertTxt)) {
@@ -61,18 +61,18 @@ function ProductList() {
         .then((res) => {
           if (res && parseInt(res.status) === 200) {
             if (res.data.checked === true) {
-              msg.push(NOTI_DELETE_SUCCESSFULLY);
-              typeNotify = NOTI_TYPE_SUCCESS;
+              msg.push(NOTIFY_NAME.NOTI_DELETE_SUCCESSFULLY);
+              typeNotify = NOTIFY_NAME.NOTI_TYPE_SUCCESS;
               setData(res.data.data);
             } else {
               msg = res.data.msg.map((element) => {
                 return element;
               });
-              typeNotify = NOTI_TYPE_WARNING;
+              typeNotify = NOTIFY_NAME.NOTI_TYPE_WARNING;
             }
           } else {
-            msg.push(NOTI_DELETE_FAIL);
-            typeNotify = NOTI_TYPE_DANGER;
+            msg.push(NOTIFY_NAME.NOTI_DELETE_FAIL);
+            typeNotify = NOTIFY_NAME.NOTI_TYPE_DANGER;
           }
           dispatch(loadingSlice.actions.hide());
           dispatch(
@@ -86,7 +86,7 @@ function ProductList() {
           dispatch(loadingSlice.actions.hide());
           dispatch(
             notifySlice.actions.showNotify({
-              type: NOTI_TYPE_DANGER,
+              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
               msg: err.message,
             })
           );
@@ -108,7 +108,7 @@ function ProductList() {
     let confirmed = false;
     let msg = new Array();
     let typeNotify = "";
-    let alertTxt = NOTI_CONFIRMED_DELETE;
+    let alertTxt = NOTIFY_NAME.NOTI_CONFIRMED_DELETE;
     if (window.confirm(alertTxt)) {
       confirmed = true;
     }
@@ -126,17 +126,17 @@ function ProductList() {
             if (res.data.checked === true) {
               setData(res.data.data);
               setIds([]);
-              msg.push(NOTI_DELETE_SUCCESSFULLY);
-              typeNotify = NOTI_TYPE_SUCCESS;
+              msg.push(NOTIFY_NAME.NOTI_DELETE_SUCCESSFULLY);
+              typeNotify = NOTIFY_NAME.NOTI_TYPE_SUCCESS;
             } else {
               msg = res.data.msg.map((element) => {
                 return element;
               });
-              typeNotify = NOTI_TYPE_WARNING;
+              typeNotify = NOTIFY_NAME.NOTI_TYPE_WARNING;
             }
           } else {
-            msg.push(NOTI_DELETE_FAIL);
-            typeNotify = NOTI_TYPE_DANGER;
+            msg.push(NOTIFY_NAME.NOTI_DELETE_FAIL);
+            typeNotify = NOTIFY_NAME.NOTI_TYPE_DANGER;
           }
           dispatch(loadingSlice.actions.hide());
           dispatch(
@@ -150,7 +150,7 @@ function ProductList() {
           dispatch(loadingSlice.actions.hide());
           dispatch(
             notifySlice.actions.showNotify({
-              typeNotify: NOTI_TYPE_DANGER,
+              typeNotify: NOTIFY_NAME.NOTI_TYPE_DANGER,
               msg: err.message,
             })
           );

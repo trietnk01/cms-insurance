@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ENDPOINT, NOTI_SAVE_FAIL, NOTI_SAVE_SUCCESSFULLY, NOTI_TYPE_DANGER, NOTI_TYPE_SUCCESS, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTIFY_NAME, PATH_NAME, TIME_OUT } from "configs";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -16,11 +16,12 @@ function CategoryProductFrm() {
     setValue,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = ({ fullname, alias }) => {
     let msg = new Array(0);
     let typeNotify = "";
     let url = "";
     let method = "";
+    let data = { fullname: fullname.trim(), alias: alias.trim() };
     dispatch(loadingSlice.actions.show());
     if (parseInt(categoryProductId).toString() !== "NaN") {
       method = "PUT";
@@ -38,18 +39,18 @@ function CategoryProductFrm() {
       .then((res) => {
         if (res && parseInt(res.status) === 200) {
           if (res.data.checked === true) {
-            msg.push(NOTI_SAVE_SUCCESSFULLY);
-            typeNotify = NOTI_TYPE_SUCCESS;
+            msg.push(NOTIFY_NAME.NOTI_SAVE_SUCCESSFULLY);
+            typeNotify = NOTIFY_NAME.NOTI_TYPE_SUCCESS;
             navigate(`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_CATEGORY_PRODUCT}/${parseInt(res.data.item.id)}`);
           } else {
             res.data.msg.forEach((element) => {
               msg.push(element);
             });
-            typeNotify = NOTI_TYPE_WARNING;
+            typeNotify = NOTIFY_NAME.NOTI_TYPE_WARNING;
           }
         } else {
-          msg.push(NOTI_SAVE_FAIL);
-          typeNotify = NOTI_TYPE_DANGER;
+          msg.push(NOTIFY_NAME.NOTI_SAVE_FAIL);
+          typeNotify = NOTIFY_NAME.NOTI_TYPE_DANGER;
         }
         dispatch(loadingSlice.actions.hide());
         dispatch(
@@ -63,7 +64,7 @@ function CategoryProductFrm() {
         dispatch(loadingSlice.actions.hide());
         dispatch(
           notifySlice.actions.showNotify({
-            type: NOTI_TYPE_DANGER,
+            type: NOTIFY_NAME.NOTI_TYPE_DANGER,
             msg: err.message,
           })
         );
@@ -96,7 +97,7 @@ function CategoryProductFrm() {
           dispatch(loadingSlice.actions.hide());
           dispatch(
             notifySlice.actions.showNotify({
-              type: NOTI_TYPE_DANGER,
+              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
               msg: err.message,
             })
           );
@@ -127,10 +128,12 @@ function CategoryProductFrm() {
         </div>
       </div>
       <hr className="my-2" />
-      <div>
-        <div className="flex flex-col gap-y-2 w-full">
+      <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col w-full">
           <div className="flex gap-x-2">
-            <div className="w-60 flex items-center justify-end">Cate product name</div>
+            <div className="w-60 flex items-center justify-end">
+              <b>Cate product name</b>
+            </div>
             <div className="grow">
               <input type="text" className="border border-gray-400 w-full p-2 " {...register("fullname", { required: true })} />
             </div>
@@ -140,9 +143,11 @@ function CategoryProductFrm() {
             <div className="grow">{errors.fullname && <span className="text-red-500">This field is required</span>}</div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2 w-full">
+        <div className="flex flex-col w-full">
           <div className="flex gap-x-2">
-            <div className="w-60 flex items-center justify-end">Alias</div>
+            <div className="w-60 flex items-center justify-end">
+              <b>Alias</b>
+            </div>
             <div className="grow">
               <input type="text" className="border border-gray-400 w-full p-2 " {...register("alias", { required: true })} />
             </div>

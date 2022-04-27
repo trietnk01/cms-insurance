@@ -17,5 +17,6 @@ module.exports = {
     quotes: ["error", "double"],
     "react/display-name": "off",
     "react/prop-types": "off",
+    "no-unused-vars": 0,
   },
 };

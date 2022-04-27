@@ -1,6 +1,6 @@
 import "assets/admin/admin-main.scss";
 import axios from "axios";
-import { API_ENDPOINT, NOTI_LOGIN_FAIL, NOTI_PERMISSION_DENINED, NOTI_TYPE_DANGER, NOTI_TYPE_WARNING, PATH_NAME, TIME_OUT } from "configs";
+import { API_ENDPOINT, NOTIFY_NAME, PATH_NAME, TIME_OUT } from "configs";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -28,12 +28,12 @@ function Login() {
             dispatch(userSlice.actions.login(res.data.user));
             navigate(`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_DASHBOARD}`);
           } else {
-            msg.push(NOTI_PERMISSION_DENINED);
-            typeNotify = NOTI_TYPE_WARNING;
+            msg.push(NOTIFY_NAME.NOTI_PERMISSION_DENINED);
+            typeNotify = NOTIFY_NAME.NOTI_TYPE_WARNING;
           }
         } else {
-          msg.push(NOTI_LOGIN_FAIL);
-          typeNotify = NOTI_TYPE_DANGER;
+          msg.push(NOTIFY_NAME.NOTI_LOGIN_FAIL);
+          typeNotify = NOTIFY_NAME.NOTI_TYPE_DANGER;
         }
         dispatch(loadingSlice.actions.hide());
         dispatch(
@@ -46,7 +46,7 @@ function Login() {
       .catch(function (err) {
         dispatch(
           notifySlice.actions.showNotify({
-            type: NOTI_TYPE_DANGER,
+            type: NOTIFY_NAME.NOTI_TYPE_DANGER,
             msg: err.message,
           })
         );

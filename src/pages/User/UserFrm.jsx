@@ -1,7 +1,7 @@
 import React from "react";
 
 function UserFrm() {
-  return <div>UserFrm</div>;
+  return <div></div>;
 }
 
 export default UserFrm;
