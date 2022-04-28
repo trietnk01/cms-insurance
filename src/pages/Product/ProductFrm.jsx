@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_ENDPOINT, FOLDER_IMAGE, NOTIFY_NAME, PATH_NAME, TIME_OUT, URL_SERVER } from "configs";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -29,10 +29,11 @@ function ProductFrm() {
     let url = "";
     let method = "";
     let frmData = new FormData();
-    frmData.append("fullname", fullname.trim());
-    frmData.append("sku", sku.trim());
-    frmData.append("alias", alias.trim());
-    frmData.append("category_product_id", category_product_id.trim());
+    frmData.append("fullname", fullname ? fullname.toString().trim() : "");
+    frmData.append("sku", sku);
+    frmData.append("alias", alias ? alias.toString().trim() : "");
+    frmData.append("category_product_id", category_product_id);
+    frmData.append("ids_color", idsColor);
     if (featuredImage) {
       frmData.append("product_image", featuredImage);
     }
@@ -51,6 +52,7 @@ function ProductFrm() {
       timeout: TIME_OUT,
     })
       .then((res) => {
+        console.log("res = ", res);
         if (res && parseInt(res.status) === 200) {
           if (res.data.checked === true) {
             msg.push(NOTIFY_NAME.NOTI_SAVE_SUCCESSFULLY);
@@ -85,7 +87,6 @@ function ProductFrm() {
       });
   };
   useEffect(() => {
-    console.log("useEffect[]");
     dispatch(loadingSlice.actions.show());
     axios({
       method: "GET",
@@ -131,7 +132,6 @@ function ProductFrm() {
       .catch(() => {});
   }, []);
   useEffect(() => {
-    console.log("useEffect[productId]");
     if (parseInt(productId).toString() === "NaN") {
       setValue("fullname", "");
       setValue("sku", "");
@@ -170,7 +170,6 @@ function ProductFrm() {
     }
   }, [productId]);
   const getSelectedBoxCategoryProduct = () => {
-    console.log("getSelectedBoxCategoryProduct");
     let xSelectedBox = null;
     let dataCopy = [...categoryProductItems];
     dataCopy.unshift({ id: "", fullname: "[---Category product---]" });
@@ -245,7 +244,6 @@ function ProductFrm() {
       setBase64URL(URL.createObjectURL(event.target.files[0]));
     }
   }
-
   return (
     <form className="border p-5" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between items-center">
