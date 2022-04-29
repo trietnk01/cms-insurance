@@ -15,6 +15,8 @@ const ProductList = lazy(() => import("pages/Product/ProductList"));
 const ProductFrm = lazy(() => import("pages/Product/ProductFrm"));
 const UserList = lazy(() => import("pages/User/UserList"));
 const UserFrm = lazy(() => import("pages/User/UserFrm"));
+const UseCallbackCmp = lazy(() => import("pages/UseCallbackDemo/UseCallbackCmp"));
+const UseMemoCmp = lazy(() => import("pages/UseMemoDemo/UseMemoCmp"));
 function RoutesMain() {
   return (
     <BrowserRouter>
@@ -134,6 +136,22 @@ function RoutesMain() {
                 }
               />
             </Route>
+            <Route
+              path={PATH_NAME.ADMIN_USE_CALLBACK}
+              element={
+                <AuthGuard>
+                  <UseCallbackCmp />
+                </AuthGuard>
+              }
+            />
+            <Route
+              path={PATH_NAME.ADMIN_USE_MEMO}
+              element={
+                <AuthGuard>
+                  <UseMemoCmp />
+                </AuthGuard>
+              }
+            />
           </Route>
           <Route path="" element={<Navigate to={`/${PATH_NAME.ADMIN_MASTER}/${PATH_NAME.ADMIN_DASHBOARD}`} />} />
           <Route path="*" element={<NoMatchFrm />} />

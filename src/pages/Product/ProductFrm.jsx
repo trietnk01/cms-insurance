@@ -8,22 +8,20 @@ import loadingSlice from "redux/loadingSlice";
 import notifySlice from "redux/notifySlice";
 function ProductFrm() {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   let { productId } = useParams();
   const [categoryProductItems, setCategoryProductItems] = useState([]);
   const [featuredImage, setFeaturedImage] = useState(null);
   const [base64URL, setBase64URL] = useState(null);
   const [dataColor, setDataColor] = useState([]);
   const [dataPermission, setDataPermission] = useState([]);
-  const [idsColor, setIdColor] = useState([]);
-  const [idsPermission, setIdPermission] = useState([]);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
-  const onSubmit = ({ fullname, sku, alias, category_product_id }) => {
+  const onSubmit = ({ fullname, sku, alias, category_product_id, color, status, permission }) => {
     let msg = new Array();
     let typeNotify = "";
     let url = "";
@@ -33,7 +31,9 @@ function ProductFrm() {
     frmData.append("sku", sku);
     frmData.append("alias", alias ? alias.toString().trim() : "");
     frmData.append("category_product_id", category_product_id);
-    frmData.append("ids_color", idsColor);
+    console.log("color = ", color);
+    console.log("status = ", status);
+    console.log("permission = ", permission);
     if (featuredImage) {
       frmData.append("product_image", featuredImage);
     }
@@ -52,7 +52,6 @@ function ProductFrm() {
       timeout: TIME_OUT,
     })
       .then((res) => {
-        console.log("res = ", res);
         if (res && parseInt(res.status) === 200) {
           if (res.data.checked === true) {
             msg.push(NOTIFY_NAME.NOTI_SAVE_SUCCESSFULLY);
@@ -86,6 +85,47 @@ function ProductFrm() {
         );
       });
   };
+  useEffect(() => {
+    if (parseInt(productId).toString() === "NaN") {
+      setValue("fullname", "");
+      setValue("sku", "");
+      setValue("alias", "");
+      setValue("category_product_id", "");
+      setFeaturedImage(null);
+      setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/no-image.jpg`);
+    } else {
+      axios({
+        method: "GET",
+        url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`,
+        timeout: TIME_OUT,
+      })
+        .then((res) => {
+          if (res && parseInt(res.status) === 200 && res.data) {
+            setValue("fullname", res.data.fullname);
+            setValue("sku", res.data.sku);
+            setValue("alias", res.data.alias);
+            setValue("category_product_id", res.data.category_product_id);
+            setValue("color", ["123", "167"]);
+            setValue("permission", ["461", "499"]);
+            setValue("status", "disabled");
+            setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/${res.data.featured_image}`);
+          } else {
+            navigate("*");
+          }
+          dispatch(loadingSlice.actions.hide());
+        })
+        .catch((err) => {
+          dispatch(loadingSlice.actions.hide());
+          dispatch(
+            notifySlice.actions.showNotify({
+              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
+              msg: err.message,
+            })
+          );
+          navigate("*");
+        });
+    }
+  }, [productId]);
   useEffect(() => {
     dispatch(loadingSlice.actions.show());
     axios({
@@ -131,44 +171,6 @@ function ProductFrm() {
       })
       .catch(() => {});
   }, []);
-  useEffect(() => {
-    if (parseInt(productId).toString() === "NaN") {
-      setValue("fullname", "");
-      setValue("sku", "");
-      setValue("alias", "");
-      setValue("category_product_id", "");
-      setFeaturedImage(null);
-      setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/no-image.jpg`);
-    } else {
-      axios({
-        method: "GET",
-        url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`,
-        timeout: TIME_OUT,
-      })
-        .then((res) => {
-          if (res && parseInt(res.status) === 200 && res.data) {
-            setValue("fullname", res.data.fullname);
-            setValue("sku", res.data.sku);
-            setValue("alias", res.data.alias);
-            setValue("category_product_id", res.data.category_product_id);
-            setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/${res.data.featured_image}`);
-          } else {
-            navigate("*");
-          }
-          dispatch(loadingSlice.actions.hide());
-        })
-        .catch((err) => {
-          dispatch(loadingSlice.actions.hide());
-          dispatch(
-            notifySlice.actions.showNotify({
-              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
-              msg: err.message,
-            })
-          );
-          navigate("*");
-        });
-    }
-  }, [productId]);
   const getSelectedBoxCategoryProduct = () => {
     let xSelectedBox = null;
     let dataCopy = [...categoryProductItems];
@@ -189,39 +191,11 @@ function ProductFrm() {
     }
     return xSelectedBox;
   };
-  const handleCheckColor = (id) => () => {
-    const idFounded = idsColor.find((elmt) => {
-      return elmt === id;
-    });
-    if (idFounded) {
-      setIdColor(
-        idsColor.filter((elemt) => {
-          return elemt !== id;
-        })
-      );
-    } else {
-      setIdColor([...idsColor, id]);
-    }
-  };
-  const handleCheckPerMission = (id) => () => {
-    const idFounded = idsPermission.find((elmt) => {
-      return elmt === id;
-    });
-    if (idFounded) {
-      setIdPermission(
-        idsPermission.filter((elemt) => {
-          return elemt !== id;
-        })
-      );
-    } else {
-      setIdPermission([...idsPermission, id]);
-    }
-  };
   function getCheckBoxColor() {
     let xHtml = dataColor.map((item) => {
       return (
         <div className="flex items-center gap-x-2" key={item.id}>
-          <input type="checkbox" checked={idsColor.find((elemt) => elemt === item.id) ? true : false} value={item.id} onChange={handleCheckColor(item.id)} /> <span>{item.name}</span>
+          <input type="checkbox" {...register("color")} value={parseInt(item.id)} /> <span>{item.name}</span>
         </div>
       );
     });
@@ -231,11 +205,26 @@ function ProductFrm() {
     let xHtml = dataPermission.map((item) => {
       return (
         <div className="flex items-center gap-x-2" key={item.id}>
-          <input type="checkbox" checked={idsPermission.find((elemt) => elemt === item.id) ? true : false} value={item.id} onChange={handleCheckPerMission(item.id)} />
+          <input type="checkbox" {...register("permission")} value={parseInt(item.id)} />
           <span>{item.name}</span>
         </div>
       );
     });
+    return xHtml;
+  }
+  function getStatus() {
+    let xHtml = (
+      <div className="flex flex-col">
+        <div className="flex items-center gap-x-2">
+          <input type="radio" {...register("status")} value="enabled" />
+          <span>Enabled</span>
+        </div>
+        <div className="flex items-center gap-x-2">
+          <input type="radio" {...register("status")} value="disabled" />
+          <span>Disabled</span>
+        </div>
+      </div>
+    );
     return xHtml;
   }
   function handleImagePreview(event) {
@@ -244,6 +233,18 @@ function ProductFrm() {
       setBase64URL(URL.createObjectURL(event.target.files[0]));
     }
   }
+  const handleKeyPressSku = (event) => {
+    let code = event.which;
+    let val = event.target.value;
+    let checked = true;
+    if (code < 48 || code > 57) {
+      checked = false;
+    }
+    if (val.toString().length > 6) {
+      checked = false;
+    }
+    if (checked === false) event.preventDefault();
+  };
   return (
     <form className="border p-5" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between items-center">
@@ -274,7 +275,7 @@ function ProductFrm() {
               <b>Product name</b>
             </div>
             <div className="grow">
-              <input type="text" className="border border-gray-400 w-full p-2" {...register("fullname", { required: true })} />
+              <input type="text" className="border border-gray-400 w-full p-2 outline-0" {...register("fullname", { required: true })} />
             </div>
           </div>
           <div className="flex gap-x-2">
@@ -288,7 +289,7 @@ function ProductFrm() {
               <b>SKU</b>
             </div>
             <div className="grow">
-              <input type="text" className="border border-gray-400 w-full p-2" {...register("sku", { required: true })} />
+              <input type="text" className="border border-gray-400 w-full p-2 outline-0" {...register("sku", { required: true })} onKeyPress={handleKeyPressSku} />
             </div>
           </div>
           <div className="flex gap-x-2">
@@ -302,7 +303,7 @@ function ProductFrm() {
               <b>Alias</b>
             </div>
             <div className="grow">
-              <input type="text" className="border border-gray-400 w-full p-2" {...register("alias", { required: true })} />
+              <input type="text" className="border border-gray-400 w-full p-2 outline-0" {...register("alias", { required: true })} />
             </div>
           </div>
           <div className="flex gap-x-2">
@@ -352,6 +353,14 @@ function ProductFrm() {
               <b>Permission</b>
             </div>
             <div className="grow">{getCheckBoxPermission()}</div>
+          </div>
+        </div>
+        <div className="flex flex-col w-full">
+          <div className="flex gap-x-2">
+            <div className="w-60 flex items-center justify-end">
+              <b>RadioButton</b>
+            </div>
+            <div className="grow">{getStatus()}</div>
           </div>
         </div>
       </div>

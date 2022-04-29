@@ -135,7 +135,7 @@ function CategoryProductFrm() {
               <b>Cate product name</b>
             </div>
             <div className="grow">
-              <input type="text" className="border border-gray-400 w-full p-2 " {...register("fullname", { required: true })} />
+              <input type="text" className="border border-gray-400 w-full p-2 outline-0 " {...register("fullname", { required: true })} />
             </div>
           </div>
           <div className="flex gap-x-2">
@@ -149,7 +149,7 @@ function CategoryProductFrm() {
               <b>Alias</b>
             </div>
             <div className="grow">
-              <input type="text" className="border border-gray-400 w-full p-2 " {...register("alias", { required: true })} />
+              <input type="text" className="border border-gray-400 w-full p-2 outline-0" {...register("alias", { required: true })} />
             </div>
           </div>
         </div>

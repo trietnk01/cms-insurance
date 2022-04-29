@@ -6,4 +6,6 @@ export const PATH_NAME = {
   ADMIN_CATEGORY_PRODUCT: "category-product",
   ADMIN_PRODUCT: "product",
   ADMIN_USER: "user",
+  ADMIN_USE_CALLBACK: "use-callback",
+  ADMIN_USE_MEMO: "use-memo",
 };
