@@ -86,46 +86,48 @@ function ProductFrm() {
       });
   };
   useEffect(() => {
-    if (parseInt(productId).toString() === "NaN") {
-      setValue("fullname", "");
-      setValue("sku", "");
-      setValue("alias", "");
-      setValue("category_product_id", "");
-      setFeaturedImage(null);
-      setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/no-image.jpg`);
-    } else {
-      axios({
-        method: "GET",
-        url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`,
-        timeout: TIME_OUT,
-      })
-        .then((res) => {
-          if (res && parseInt(res.status) === 200 && res.data) {
-            setValue("fullname", res.data.fullname);
-            setValue("sku", res.data.sku);
-            setValue("alias", res.data.alias);
-            setValue("category_product_id", res.data.category_product_id);
-            setValue("color", ["123", "167"]);
-            setValue("permission", ["461", "499"]);
-            setValue("status", "disabled");
-            setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/${res.data.featured_image}`);
-          } else {
-            navigate("*");
-          }
-          dispatch(loadingSlice.actions.hide());
+    if (categoryProductItems.length > 0) {
+      if (parseInt(productId).toString() === "NaN") {
+        setValue("fullname", "");
+        setValue("sku", "");
+        setValue("alias", "");
+        setValue("category_product_id", "");
+        setFeaturedImage(null);
+        setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/no-image.jpg`);
+      } else {
+        axios({
+          method: "GET",
+          url: `${API_ENDPOINT}/${PATH_NAME.ADMIN_PRODUCT}/${parseInt(productId)}`,
+          timeout: TIME_OUT,
         })
-        .catch((err) => {
-          dispatch(loadingSlice.actions.hide());
-          dispatch(
-            notifySlice.actions.showNotify({
-              type: NOTIFY_NAME.NOTI_TYPE_DANGER,
-              msg: err.message,
-            })
-          );
-          navigate("*");
-        });
+          .then((res) => {
+            if (res && parseInt(res.status) === 200 && res.data) {
+              setValue("fullname", res.data.fullname);
+              setValue("sku", res.data.sku);
+              setValue("alias", res.data.alias);
+              setValue("category_product_id", res.data.category_product_id);
+              setValue("color", ["123", "167"]);
+              setValue("permission", ["461", "499"]);
+              setValue("status", "disabled");
+              setBase64URL(`${URL_SERVER}/${FOLDER_IMAGE}/${res.data.featured_image}`);
+            } else {
+              navigate("*");
+            }
+            dispatch(loadingSlice.actions.hide());
+          })
+          .catch((err) => {
+            dispatch(loadingSlice.actions.hide());
+            dispatch(
+              notifySlice.actions.showNotify({
+                type: NOTIFY_NAME.NOTI_TYPE_DANGER,
+                msg: err.message,
+              })
+            );
+            navigate("*");
+          });
+      }
     }
-  }, [productId]);
+  }, [productId, categoryProductItems]);
   useEffect(() => {
     dispatch(loadingSlice.actions.show());
     axios({
@@ -135,7 +137,9 @@ function ProductFrm() {
     })
       .then((res) => {
         if (res && parseInt(res.status) === 200 && res.data.checked === true && Array.isArray(res.data.data) && res.data.data.length > 0) {
-          setCategoryProductItems(res.data.data);
+          let data_category_product = res.data.data;
+          data_category_product.unshift({ id: "", fullname: "[---Category product---]" });
+          setCategoryProductItems(data_category_product);
           let data_color = [
             {
               id: 123,
@@ -173,10 +177,9 @@ function ProductFrm() {
   }, []);
   const getSelectedBoxCategoryProduct = () => {
     let xSelectedBox = null;
-    let dataCopy = [...categoryProductItems];
-    dataCopy.unshift({ id: "", fullname: "[---Category product---]" });
-    if (dataCopy.length > 0) {
-      let xHtmlOption = dataCopy.map((elmt) => {
+    let category_product = [...categoryProductItems];
+    if (category_product.length > 0) {
+      let xHtmlOption = category_product.map((elmt) => {
         return (
           <option value={elmt.id} key={elmt.id}>
             {elmt.fullname}

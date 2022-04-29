@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { checkedShowLoading } from "redux/selector";
-function LoadingSnipper() {
+function LoadingSpinner() {
   const renderLoading = () => {
     let frm = null;
     let isShow = useSelector(checkedShowLoading);
@@ -20,4 +20,4 @@ function LoadingSnipper() {
   return <Fragment>{renderLoading()}</Fragment>;
 }
 
-export default LoadingSnipper;
+export default LoadingSpinner;
